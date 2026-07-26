@@ -1,0 +1,7 @@
+POST http://localhost:8000/api/v1/audit-copy
+Content-Type: application/json
+
+{
+  "copy_text": "this device is good",
+  "product_line": "Mobile"
+}

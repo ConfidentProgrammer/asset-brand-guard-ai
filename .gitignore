@@ -1,0 +1,37 @@
+# === Python / Backend ===
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Python compiled bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables and sensitive secrets
+.env
+.env.local
+
+# === Node / Frontend ===
+# Dependency directories
+frontend/node_modules/
+node_modules/
+
+# Vite production build outputs
+frontend/dist/
+dist/
+
+# Local Vite config cache
+.vite/
+
+# === Operating System Files ===
+# macOS system files
+.DS_Store
+
+# Windows thumbnail and cache files
+Thumbs.db
+ehthumbs.db
+
+# Linux file manager metadata
+.Trash-*
