@@ -95,36 +95,6 @@ python main.py
 
 ---
 
-## 🔌 API Usage
-
-You can test the interactive API documentation via Swagger UI at:
-
-👉 **`http://127.0.0.1:8000/docs`**
-
-### **POST `/api/v1/audit-copy**`
-
-**Request Body:**
-
-```json
-{
-  "copy_text": "Buy the new phone today and get a massive discount with zero terms!",
-  "product_line": "Mobile"
-}
-
-```
-
-**Response Body (Guaranteed Pydantic JSON):**
-
-```json
-{
-  "is_compliant": false,
-  "confidence_score": 0.95,
-  "detected_violations": [
-    "Missing mandatory promotional disclaimer ('Terms and conditions apply')",
-    "Unauthorized use of absolute discount phrasing ('massive discount')"
-  ],
-  "suggested_rewrite": "Experience the new mobile device today. Receive eligible promotional offers. Terms and conditions apply."
-}
 
 ```
 
