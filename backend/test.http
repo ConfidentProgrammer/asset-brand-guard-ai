@@ -2,6 +2,6 @@ POST http://localhost:8000/api/v1/audit-copy
 Content-Type: application/json
 
 {
-  "copy_text": "this device is good",
+  "copy_text": "The Galaxy S24 features a robust battery designed for everyday usage patterns based on standardized laboratory testing. In-box accessories include a USB-C data cable.",
   "product_line": "Mobile"
 }
