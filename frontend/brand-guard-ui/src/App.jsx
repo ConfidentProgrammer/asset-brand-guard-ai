@@ -17,7 +17,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        "https://shiny-couscous-jrqqw5xwrgr2prrr-8000.app.github.dev/api/v1/audit-copy",
+        "https://asset-brand-guard-ai.onrender.com/api/v1/audit-copy",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
