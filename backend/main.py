@@ -1,4 +1,4 @@
-from fastapi import File, UploadFile, Form, HTTPException, FastAPI
+from fastapi import File, UploadFile, Form, HTTPException, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from google import genai
 from dotenv import load_dotenv
@@ -7,6 +7,8 @@ import json
 from app.schema.schema import AuditRequest, BrandAuditResult
 from app.config import genai_client,pinecone_client
 from app.services.rag_service import get_rules
+import traceback
+from fastapi.responses import JSONResponse
 load_dotenv()
 
 
@@ -64,7 +66,8 @@ async def audit_image(
         
         # 2. Fetch relevant brand design/visual rules using RAG
         # We use a descriptive query text contextually linked to the product line
-        rules = get_rules(f"visual guidelines layout logo positioning for {product_line}", product_line)
+        payload = AuditRequest(copy_text = f"visual guidelines layout logo positioning for {product_line}", product_line=product_line)
+        rules = get_rules(payload)
         
         # 3. Construct prompt and format image payload for Gemini 2.5 Flash
         prompt = f"""
@@ -75,7 +78,7 @@ async def audit_image(
         """
         
         response = genai_client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.5-flash-lite",
             contents=[
                 prompt,
                 types.Part.from_bytes(

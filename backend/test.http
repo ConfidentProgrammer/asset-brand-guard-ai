@@ -1,7 +1,21 @@
-POST https://asset-brand-guard-ai.onrender.com/api/v1/audit-copy
-Content-Type: application/json
+# POST https://asset-brand-guard-ai.onrender.com/api/v1/audit-copy
+# Content-Type: application/json
 
-{
-  "copy_text": "The Galaxy S24 features a robust battery designed for everyday usage patterns based on standardized laboratory testing. In-box accessories include a USB-C data cable.",
-  "product_line": "Mobile"
-}
+# {
+#   "copy_text": "The Galaxy S24 featurdddes a robust battery designed for everyday usage patterns based on standardized laboratory testing. In-box accessories include a USB-C data cable.",
+#   "product_line": "Mobile"
+# }
+
+POST http://localhost:8000/api/v1/audit-image
+Content-Type: multipart/form-data; boundary=----MyBoundaryString
+
+------MyBoundaryString
+Content-Disposition: form-data; name="product_line"
+
+Mobile
+------MyBoundaryString
+Content-Disposition: form-data; name="file"; filename="sample.jpg"
+Content-Type: image/jpeg
+
+< ./test_img.png
+------MyBoundaryString--
