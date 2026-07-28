@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import File, UploadFile, Form, HTTPException, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from google import genai
 from dotenv import load_dotenv
@@ -52,3 +52,47 @@ async def audit_marketing_copy(payload: AuditRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/audit-image", response_model=BrandAuditResult)
+async def audit_image(
+    file: UploadFile = File(...),
+    product_line: str = Form(...)
+):
+    try:
+        # 1. Read image raw bytes from the uploaded file
+        image_bytes = await file.read()
+        
+        # 2. Fetch relevant brand design/visual rules using RAG
+        # We use a descriptive query text contextually linked to the product line
+        rules = get_rules(f"visual guidelines layout logo positioning for {product_line}", product_line)
+        
+        # 3. Construct prompt and format image payload for Gemini 2.5 Flash
+        prompt = f"""
+        Analyze this marketing asset/image against the following brand compliance rules:
+        {rules}
+        
+        Determine if the asset adheres to the brand guidelines. Provide a structured audit result.
+        """
+        
+        response = genai_client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                prompt,
+                types.Part.from_bytes(
+                    data=image_bytes,
+                    mime_type=file.content_type or "image/jpeg"
+                )
+            ],
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=BrandAuditResult,
+                temperature=0.1
+            ),
+        )
+        
+        return BrandAuditResult(**json.loads(response.text))
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        await file.close()
